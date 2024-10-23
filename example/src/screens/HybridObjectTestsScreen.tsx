@@ -1,144 +1,32 @@
 import * as React from 'react'
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  Button,
-  Platform,
-} from 'react-native'
-import {
-  HybridTestObjectCpp,
-  HybridTestObjectSwiftKotlin,
-  HybridChild,
-  HybridBase,
-} from 'react-native-nitro-image'
-import { getTests, type TestRunner } from '../getTests'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+import { HybridBase, HybridChild } from 'react-native-nitro-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { logPrototypeChain } from '../logPrototypeChain'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import { NitroModules } from 'react-native-nitro-modules'
+import { mathAdd, mathSubtract, mqttConnect, mqttDisconnect } from 'react-native-nitro-template'
+import { useEffect } from 'react'
 
-logPrototypeChain(HybridChild)
-console.log(HybridBase.baseValue)
-console.log(HybridChild.baseValue)
-console.log(HybridChild.childValue)
-
-logPrototypeChain(HybridTestObjectCpp)
-
-interface TestState {
-  runner: TestRunner
-  state: '📱 Click to run' | '⏳ Running' | '❌ Failed' | '✅ Passed'
-  extraMessage: string
-}
-
-interface TestCaseProps {
-  test: TestState
-  onRunPressed: () => void
-}
-
-function TestCase({ test, onRunPressed }: TestCaseProps): React.ReactElement {
-  return (
-    <View style={styles.testCase}>
-      <View style={styles.testBox}>
-        <Text style={styles.testName}>{test.runner.name}</Text>
-        <View style={styles.smallVSpacer} />
-        <Text style={styles.testStatus} numberOfLines={6}>
-          {test.state} ({test.extraMessage})
-        </Text>
-      </View>
-      <View style={styles.flex} />
-      <Button title="Run" onPress={onRunPressed} />
-    </View>
-  )
-}
+console.log('HybridBase.baseValue', HybridBase.baseValue)
+console.log('HybridChild.baseValue', HybridChild.baseValue)
+console.log('HybridChild.childValue', HybridChild.childValue)
 
 export function HybridObjectTestsScreen() {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
-  const selectedObject = [HybridTestObjectCpp, HybridTestObjectSwiftKotlin][
-    selectedIndex
-  ]
-  console.log(`Showing Tests for HybridObject "${selectedObject?.name}"`)
-  const allTests = React.useMemo(
-    () => getTests(selectedObject ?? HybridTestObjectCpp),
-    [selectedObject]
-  )
-  const [tests, setTests] = React.useState<TestState[]>(() =>
-    allTests.map((t) => ({
-      runner: t,
-      state: '📱 Click to run',
-      extraMessage: '',
-    }))
-  )
 
-  React.useEffect(() => {
-    setTests(
-      allTests.map((t) => ({
-        runner: t,
-        state: '📱 Click to run',
-        extraMessage: '',
-      }))
-    )
-  }, [allTests])
+  const result = mathSubtract(5015, 1117)
+  console.log('mathSubtract result', result)
 
-  const status = React.useMemo(() => {
-    const passed = tests.filter((t) => t.state === '✅ Passed').length
-    const failed = tests.filter((t) => t.state === '❌ Failed').length
-    const running = tests.filter((t) => t.state === '⏳ Running').length
+  const result2 = mathAdd(5015, 1117)
+  console.log('mathAdd result', result2)
 
-    if (running > 0) {
-      return `⏳ Running ${running}/${tests.length} tests...`
+  useEffect(() => {
+    mqttConnect('localhost', 1883)
+    return () => {
+      mqttDisconnect()
     }
-    if (passed > 0 || failed > 0) {
-      if (passed > 0 && failed > 0) {
-        return `✅ Passed ${passed}/${tests.length} tests, ❌ failed ${failed}/${tests.length} tests.`
-      } else if (passed > 0) {
-        return `✅ Passed ${passed}/${tests.length} tests.`
-      } else if (failed > 0) {
-        return `❌ Failed ${failed}/${tests.length} tests.`
-      }
-    }
-    return `📱 Idle`
-  }, [tests])
-
-  const updateTest = (
-    runner: TestRunner,
-    newState: TestState['state'],
-    newMessage: TestState['extraMessage']
-  ) => {
-    setTests((t) => {
-      const indexOfTest = t.findIndex((v) => v.runner === runner)
-      if (indexOfTest === -1) {
-        throw new Error(
-          `Test ${runner} does not exist in all tests! What did you click? lol`
-        )
-      }
-      const copy = [...t]
-      copy[indexOfTest]!.state = newState
-      copy[indexOfTest]!.extraMessage = newMessage
-      return copy
-    })
-  }
-
-  const runTest = (test: TestState) => {
-    updateTest(test.runner, '⏳ Running', '')
-    requestAnimationFrame(async () => {
-      const result = await test.runner.run()
-      switch (result.status) {
-        case 'successful':
-          updateTest(test.runner, '✅ Passed', `Result: ${result.result}`)
-          break
-        case 'failed':
-          updateTest(test.runner, '❌ Failed', `Error: ${result.message}`)
-          break
-      }
-    })
-  }
-
-  const runAllTests = () => {
-    tests.forEach((t) => runTest(t))
-  }
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -155,22 +43,9 @@ export function HybridObjectTestsScreen() {
         <View style={styles.flex} />
         <Text style={styles.buildTypeText}>{NitroModules.buildType}</Text>
       </View>
+      <Text>Math Add: {result}</Text>
+      <Text>Math Sub: {result2}</Text>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {tests.map((t, i) => (
-          <TestCase
-            key={`test-${i}`}
-            test={t}
-            onRunPressed={() => runTest(t)}
-          />
-        ))}
-      </ScrollView>
-
-      <View style={styles.bottomView}>
-        <Text>{status}</Text>
-        <View style={styles.smallVSpacer} />
-        <Button title="Run all tests" onPress={runAllTests} />
-      </View>
     </SafeAreaView>
   )
 }
