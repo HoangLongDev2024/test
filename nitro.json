@@ -1,0 +1,17 @@
+{
+  "cxxNamespace": ["mqtt_lib"],
+  "ios": {
+    "iosModulename": "NitroMQTTLib"
+  },
+  "android": {
+    "androidNamespace": ["mqtt_lib"],
+    "androidCxxLibName": "NitroMQTTLib"
+  },
+  "autolinking": {
+    "MQTT": {
+      "swift": "HybridMQTT",
+      "kotlin": "HybridMQTT"
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
