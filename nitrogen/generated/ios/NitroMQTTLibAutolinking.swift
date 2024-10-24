@@ -19,8 +19,8 @@ public final class NitroMQTTLibAutolinking {
     let hybridObject = HybridMQTT()
     return { () -> bridge.std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ in
       let __cxxWrapped = HybridMQTTSpecCxx(hybridObject)
-      let __swiftReferenceId = HybridMQTTSpecCxxReferenceHolder.put(__cxxWrapped)
-      return bridge.create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(__swiftReferenceId)
+      let __pointer = HybridMQTTSpecCxxUnsafe.toUnsafe(__cxxWrapped)
+      return bridge.create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(__pointer)
     }()
   }
 }

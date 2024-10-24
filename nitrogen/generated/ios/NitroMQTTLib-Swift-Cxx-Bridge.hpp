@@ -66,7 +66,7 @@ namespace margelo::nitro::mqtt_lib::bridge::swift {
    * Specialized version of `std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec>`.
    */
   using std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ = std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec>;
-  std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec> create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(size_t swiftReferenceId);
-  size_t get_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ cppType);
+  std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec> create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(void* NONNULL swiftUnsafePointer);
+  void* NONNULL get_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ cppType);
 
 } // namespace margelo::nitro::mqtt_lib::bridge::swift

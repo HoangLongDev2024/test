@@ -15,11 +15,11 @@
 namespace margelo::nitro::mqtt_lib::bridge::swift {
 
   // pragma MARK: std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec>
-  std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec> create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(size_t swiftReferenceId) {
-    NitroMQTTLib::HybridMQTTSpecCxx swiftPart = NitroMQTTLib::HybridMQTTSpecCxxReferenceHolder::getById(swiftReferenceId);
+  std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpec> create_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(void* NONNULL swiftUnsafePointer) {
+    NitroMQTTLib::HybridMQTTSpecCxx swiftPart = NitroMQTTLib::HybridMQTTSpecCxxUnsafe::fromUnsafe(swiftUnsafePointer);
     return HybridContext::getOrCreate<margelo::nitro::mqtt_lib::HybridMQTTSpecSwift>(swiftPart);
   }
-  size_t get_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ cppType) {
+  void* NONNULL get_std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_(std__shared_ptr_margelo__nitro__mqtt_lib__HybridMQTTSpec_ cppType) {
     std::shared_ptr<margelo::nitro::mqtt_lib::HybridMQTTSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::mqtt_lib::HybridMQTTSpecSwift>(cppType);
   #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
@@ -27,7 +27,7 @@ namespace margelo::nitro::mqtt_lib::bridge::swift {
     }
   #endif
     NitroMQTTLib::HybridMQTTSpecCxx swiftPart = swiftWrapper->getSwiftPart();
-    return NitroMQTTLib::HybridMQTTSpecCxxReferenceHolder::put(swiftPart);
+    return NitroMQTTLib::HybridMQTTSpecCxxUnsafe::toUnsafe(swiftPart);
   }
 
 } // namespace margelo::nitro::mqtt_lib::bridge::swift

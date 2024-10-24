@@ -9,24 +9,26 @@ import Foundation
 import NitroModules
 
 /**
- * Holds instances of HybridMQTTSpecCxx and stores them under Integer IDs.
- * Those Integer IDs can be used in C++ to box the Swift type to prevent cyclic includes.
+ * Helper class for converting instances of `HybridMQTTSpecCxx` from- and to unsafe pointers.
+ * This is useful to pass Swift classes to C++, without having to strongly type the C++ function signature.
+ * The actual Swift type can be included in the .cpp file, without having to forward-declare anything in .hpp.
  */
-public final class HybridMQTTSpecCxxReferenceHolder {
-  private static var instances: [Int : HybridMQTTSpecCxx] = [:]
-  private static var counter: Int = 0
-
-  public static func put(_ instance: HybridMQTTSpecCxx) -> Int {
-    let id = counter
-    counter += 1
-    instances[id] = instance
-    return id
+public final class HybridMQTTSpecCxxUnsafe {
+  /**
+   * Casts a `HybridMQTTSpecCxx` instance to a retained unsafe raw pointer.
+   * This acquires one additional strong reference on the object!
+   */
+  public static func toUnsafe(_ instance: HybridMQTTSpecCxx) -> UnsafeMutableRawPointer {
+    return Unmanaged.passRetained(instance).toOpaque()
   }
 
-  public static func getById(_ instanceId: Int) -> HybridMQTTSpecCxx {
-    let instance = instances[instanceId]!
-    instances.removeValue(forKey: instanceId)
-    return instance
+  /**
+   * Casts an unsafe pointer to a `HybridMQTTSpecCxx`.
+   * The pointer has to be a retained opaque `Unmanaged<HybridMQTTSpecCxx>`.
+   * This removes one strong reference from the object!
+   */
+  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer) -> HybridMQTTSpecCxx {
+    return Unmanaged<HybridMQTTSpecCxx>.fromOpaque(pointer).takeRetainedValue()
   }
 }
 

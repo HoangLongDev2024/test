@@ -28,9 +28,7 @@ target_sources(
   ../nitrogen/generated/android/NitroMQTTLibOnLoad.cpp
   # Shared Nitrogen C++ sources
   ../nitrogen/generated/shared/c++/HybridMQTTSpec.cpp
-  ../nitrogen/generated/shared/c++/HybridMQTTSpec.cpp
   # Android-specific Nitrogen C++ sources
-  ../nitrogen/generated/android/c++/JHybridMQTTSpec.cpp
   ../nitrogen/generated/android/c++/JHybridMQTTSpec.cpp
 )
 

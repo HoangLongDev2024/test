@@ -26,8 +26,6 @@ int initialize(JavaVM* vm) {
     // Register native JNI methods
     margelo::nitro::mqtt_lib::JHybridMQTTSpec::registerNatives();
     margelo::nitro::mqtt_lib::JFunc_void_std__string::registerNatives();
-    margelo::nitro::mqtt_lib::JHybridMQTTSpec::registerNatives();
-    margelo::nitro::mqtt_lib::JFunc_void_std__string::registerNatives();
 
     // Register Nitro Hybrid Objects
     HybridObjectRegistry::registerHybridObjectConstructor(
