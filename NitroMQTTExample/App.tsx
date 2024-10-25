@@ -13,7 +13,7 @@ import {
   useColorScheme,
 } from 'react-native';
 
-import {mqttConnect} from 'react-native-nitro-template';
+import {mqttConnect} from '../src';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 
 function App(): React.JSX.Element {

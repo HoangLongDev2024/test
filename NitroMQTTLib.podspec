@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = {
     "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) FOLLY_NO_CONFIG FOLLY_CFG_NO_COROUTINES"
   }
-
+  s.dependency = 'CocoaMQTT'
   load 'nitrogen/generated/ios/NitroMQTTLib+autolinking.rb'
   add_nitrogen_files(s)
 
